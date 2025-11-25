@@ -60,7 +60,7 @@ Logistic Regression
 The best model is automatically selected based on accuracy and ROC-AUC.
 Feature importance is extracted and ranked for tree-based methods.
 
-<img width="1918" height="1019" alt="Screenshot 2025-11-25 082258" src="https://github.com/user-attachments/assets/fb4d2187-08bf-4f19-a488-397c92770997" />
+<img width="1919" height="1021" alt="Screenshot 2025-11-25 082231" src="https://github.com/user-attachments/assets/206cf943-c6c5-4d17-a13b-3d7f8af429ee" />
 
 6. Health Prediction
 
@@ -151,7 +151,7 @@ Random anomalies and failure labeling
 
 This makes the system suitable for experimentation without needing a real dataset.
 
-<img width="1919" height="1021" alt="Screenshot 2025-11-25 082231" src="https://github.com/user-attachments/assets/206cf943-c6c5-4d17-a13b-3d7f8af429ee" />
+<img width="1918" height="1019" alt="Screenshot 2025-11-25 082258" src="https://github.com/user-attachments/assets/fb4d2187-08bf-4f19-a488-397c92770997" />
 
 Use Cases
 
