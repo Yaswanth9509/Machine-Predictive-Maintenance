@@ -60,6 +60,8 @@ Logistic Regression
 The best model is automatically selected based on accuracy and ROC-AUC.
 Feature importance is extracted and ranked for tree-based methods.
 
+<img width="1918" height="1019" alt="Screenshot 2025-11-25 082258" src="https://github.com/user-attachments/assets/fb4d2187-08bf-4f19-a488-397c92770997" />
+
 6. Health Prediction
 
 A prediction interface is provided to estimate:
@@ -69,6 +71,9 @@ Expected failure type
 Confidence score
 
 Probability distribution across all failure classes
+
+<img width="1917" height="1020" alt="Screenshot 2025-11-25 082244" src="https://github.com/user-attachments/assets/8f24b87b-8785-499f-b9d0-5e18e19a4e4a" />
+
 
 7. Maintenance Report Generation
 
@@ -145,6 +150,8 @@ Machine aging
 Random anomalies and failure labeling
 
 This makes the system suitable for experimentation without needing a real dataset.
+
+<img width="1919" height="1021" alt="Screenshot 2025-11-25 082231" src="https://github.com/user-attachments/assets/206cf943-c6c5-4d17-a13b-3d7f8af429ee" />
 
 Use Cases
 
