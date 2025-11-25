@@ -1,93 +1,162 @@
 # Machine-Predictive-Maintenance
 
-1. Executive Summary
-This documentation outlines the architecture, functionality, and deployment requirements for the Predictive Maintenance System (PdM). The system is engineered to provide a data-driven approach to asset health management by employing machine learning models to forecast equipment failures based on real-time and historical sensor telemetry. The objective is to transition from reactive or scheduled maintenance to highly efficient predictive maintenance, maximizing asset uptime and minimizing operational expenditure.
+This repository contains a complete, modular, and extensible Predictive Maintenance System implemented in Python. It supports dataset ingestion, feature engineering, exploratory data analysis, anomaly detection, supervised failure prediction, and maintenance report generation. The system can work with real industrial datasets or synthetically generated data.
 
-2. Technical Architecture
-The core of the solution is the PredictiveMaintenanceSystem Python class, which implements a structured machine learning pipeline consisting of data handling, feature engineering, model training, and performance reporting.
+Overview
 
-Key Components:
-Data Ingestion Layer: Handles the loading and initial validation of operational data.
+The system is structured around a main class, PredictiveMaintenanceSystem, which encapsulates the complete workflow required to build and evaluate predictive maintenance models. The design supports multiple dataset formats, including CSV, Azure PdM datasets, NASA bearing datasets, and custom column mappings. If no dataset is provided, the system can generate synthetic multivariate time-series data.
 
-Data Preprocessing and Feature Engineering: Transforms raw sensor data into predictive signals.
+Features
+1. Dataset Management
 
-Modeling Layer: Utilizes various supervised and unsupervised algorithms for failure classification.
+Supports dataset types: auto-detected, CSV, Azure predictive maintenance format, NASA bearing data, and custom structured files.
 
-Reporting Layer: Generates actionable insights and model performance metrics.
+Automatic detection of datetime columns.
 
-3. Dataset Specification
-The system is configured to process datasets structured similarly to Predictive_Maintenance.csv. Data integrity and quality are paramount for accurate model predictions.
-Field Name,Data Type,Description,Role in Model
-Temperature_K,Numeric,Ambient temperature reading (Normalized/Scaled).,Feature
-Process_Temperature_K,Numeric,Process temperature reading (Normalized/Scaled).,Feature
-Rotational_Speed_RPM,Numeric,Machine rotational speed (Normalized/Scaled).,Feature
-Torque_Nm,Numeric,Measured torque output (Normalized/Scaled).,Feature
-Tool_Wear_Min,Numeric,Cumulative tool wear (Normalized/Scaled).,Feature
-Vibration_X/Vibration_Y,Numeric,Sensor data for machine vibration (Normalized/Scaled).,Feature
-Power_Consumption_kW,Numeric,Machine power usage (Normalized/Scaled).,Feature
-Pressure_Bar,Numeric,System pressure (Normalized/Scaled).,Feature
-Coolant_Flow_Lmin,Numeric,Coolant flow rate (Normalized/Scaled).,Feature
-MachineFailure,Binary (0/1),Target Variable: Indicates a recorded equipment failure.,Target
-Predictive Maintenance System Documentation
-1. Executive Summary
-This documentation outlines the architecture, functionality, and deployment requirements for the Predictive Maintenance System (PdM). The system is engineered to provide a data-driven approach to asset health management by employing machine learning models to forecast equipment failures based on real-time and historical sensor telemetry. The objective is to transition from reactive or scheduled maintenance to highly efficient predictive maintenance, maximizing asset uptime and minimizing operational expenditure.
+Automated fallback to synthetic dataset generation when files are missing.
 
-2. Technical Architecture
-The core of the solution is the PredictiveMaintenanceSystem Python class, which implements a structured machine learning pipeline consisting of data handling, feature engineering, model training, and performance reporting.
-Image of Predictive Maintenance Architecture Diagram
-Shutterstock
+Custom dataset mapping to required columns when necessary.
 
-Key Components:
-Data Ingestion Layer: Handles the loading and initial validation of operational data.
+2. Feature Engineering
 
-Data Preprocessing and Feature Engineering: Transforms raw sensor data into predictive signals.
+Extraction of temporal features (hour, day of week, month).
 
-Modeling Layer: Utilizes various supervised and unsupervised algorithms for failure classification.
+Rolling 24-hour statistical features for telemetry metrics.
 
-Reporting Layer: Generates actionable insights and model performance metrics.
+Deviation-from-mean features for drift detection.
 
-3. Dataset Specification
-The system is configured to process datasets structured similarly to Predictive_Maintenance.csv. Data integrity and quality are paramount for accurate model predictions.
+Automated handling of missing data.
 
-Schema Details:
-Field Name	Data Type	Description	Role in Model
-Temperature_K	Numeric	Ambient temperature reading (Normalized/Scaled).	Feature
-Process_Temperature_K	Numeric	Process temperature reading (Normalized/Scaled).	Feature
-Rotational_Speed_RPM	Numeric	Machine rotational speed (Normalized/Scaled).	Feature
-Torque_Nm	Numeric	Measured torque output (Normalized/Scaled).	Feature
-Tool_Wear_Min	Numeric	Cumulative tool wear (Normalized/Scaled).	Feature
-Vibration_X/Vibration_Y	Numeric	Sensor data for machine vibration (Normalized/Scaled).	Feature
-Power_Consumption_kW	Numeric	Machine power usage (Normalized/Scaled).	Feature
-Pressure_Bar	Numeric	System pressure (Normalized/Scaled).	Feature
-Coolant_Flow_Lmin	Numeric	Coolant flow rate (Normalized/Scaled).	Feature
-MachineFailure	Binary (0/1)	Target Variable: Indicates a recorded equipment failure.	Target
+3. Exploratory Data Analysis
 
-4. Operational Methods
-The system's functionality is exposed via the following methods within the PredictiveMaintenanceSystem class:
-MethodPurposeImplementation Detailsupload_dataset(file_path, dataset_type)Data loading and validation.Accepts file paths for CSV or other standard formats. Performs initial type-checking and null value assessment.exploratory_data_analysis()Data quality and distribution check.Generates summary statistics, validates time range, assesses feature distribution, and plots target class imbalance.feature_engineering()Predictive Signal Creation.Creates time-series features (e.g., lagging values, rolling statistics, change rate) critical for capturing degradation patterns.anomaly_detection()Outlier management.Applies Isolation Forest or similar methods to identify and flag atypical operational data points that could skew model training.train_failure_prediction_models()Model training and selection.Trains a diverse set of classifiers (XGBoost, Random Forest, Logistic Regression, SVM) and performs cross-validation for performance benchmarking.generate_maintenance_report()Results synthesis.Generates a formalized report including model AUC, Classification Report, Feature Importance, and proposed maintenance actions.
+Statistical summaries of all numeric attributes.
 
-5. Deployment and Dependencies
-5.1. Prerequisites
-The system requires a Python environment (3.7+) with the following dependency packages:
+Failure distribution overview.
 
-Bash
+Time-series visualization of telemetry metrics.
 
-pip install numpy pandas matplotlib seaborn scikit-learn xgboost
+Per-machine visualization support when machine identifiers are available.
 
-5.2. Execution
-The primary execution block in the provided Python file demonstrates the standard workflow.
+4. Anomaly Detection
 
-Python
+Implementation using IsolationForest.
 
-from Predictive_Maintenance import PredictiveMaintenanceSystem
+Automated marking of anomaly labels and anomaly scores.
 
-# Instantiate the Predictive Maintenance System
+Visualization of normal vs anomalous behavior across telemetry metrics.
+
+5. Failure Prediction Models
+
+The system trains and evaluates multiple supervised ML models:
+
+Random Forest Classifier
+
+XGBoost Classifier
+
+Support Vector Machine
+
+Logistic Regression
+
+The best model is automatically selected based on accuracy and ROC-AUC.
+Feature importance is extracted and ranked for tree-based methods.
+
+6. Health Prediction
+
+A prediction interface is provided to estimate:
+
+Expected failure type
+
+Confidence score
+
+Probability distribution across all failure classes
+
+7. Maintenance Report Generation
+
+Generates a structured report summarizing:
+
+Latest machine readings
+
+Detected anomalies
+
+Detected failures
+
+Threshold-based warnings for vibration, voltage, rotation speed, and pressure
+
+Reports are generated per machine when machine IDs are present.
+
+Project Structure
+Predictive_Maintenance.py        # Core implementation of the system
+Predictive_Maintenance.csv       # Optional dataset uploaded by the user
+
+Technologies Used
+
+Python 3.x
+
+NumPy
+
+Pandas
+
+Matplotlib
+
+Seaborn
+
+scikit-learn
+
+XGBoost
+
+Usage
+Initialization
 pms = PredictiveMaintenanceSystem()
 
-# Load the operational dataset
-pms.upload_dataset(file_path='Predictive_Maintenance.csv', dataset_type='csv')
+Loading a Dataset
+pms.upload_dataset("path/to/dataset.csv", dataset_type="auto")
 
-# Execute the complete data-to-insight pipeline
+Generating Synthetic Data (if no dataset)
+pms.generate_synthetic_data(n_machines=50, days=180)
+
+Feature Engineering
+pms.feature_engineering()
+
+Exploratory Analysis
+pms.exploratory_data_analysis()
+
+Anomaly Detection
+pms.anomaly_detection()
+
+Training Models
+pms.train_failure_prediction_models()
+
+Generating a Maintenance Report
+pms.generate_maintenance_report()
+
+Predicting Equipment Health
+result = pms.predict_equipment_health(features)
+
+Synthetic Data
+
+Synthetic datasets are generated with:
+
+Multivariate telemetry: voltage, rotation, pressure, vibration
+
+Time drift and noise
+
+Machine aging
+
+Random anomalies and failure labeling
+
+This makes the system suitable for experimentation without needing a real dataset.
+
+Use Cases
+
+Industrial IoT systems
+
+Manufacturing and production monitoring
+
+Predictive maintenance research
+
+Reliability engineering
+
+Real-time equipment health monitoring systems
 pms.run_full_pipeline()
 5.3. Output and Interpretation
 Upon execution, the system outputs detailed reports to the console and generates visual artifacts. The critical output is the classification_report, which must be evaluated against industrial requirements, prioritizing Recall for the minority MachineFailure class to minimize false negatives (missed failures).
