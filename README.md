@@ -159,4 +159,6 @@ Reliability engineering
 Real-time equipment health monitoring systems
 pms.run_full_pipeline()
 5.3. Output and Interpretation
-Upon execution, the system outputs detailed reports to the console and generates visual artifacts. The critical output is the classification_report, which must be evaluated against industrial requirements, prioritizing Recall for the minority MachineFailure class to minimize false negatives (missed failures).
+Upon execution, the system outputs detailed reports to the console and generates visual artifacts. 
+The critical output is the classification_report, which must be evaluated against industrial requirements,
+prioritizing Recall for the minority MachineFailure class to minimize false negatives (missed failures).
